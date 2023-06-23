@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .scraper_base import Attributes, CrimeStatistics
 
 
@@ -25,4 +25,4 @@ def crime(request, country, city):
     if request.method == "GET":
         crime = CrimeStatistics(country=country, city=city).all()
 
-        return HttpResponse(f"country:{country}, city:{city}, crime: {crime}")
+        return JsonResponse({"country": country, "city": city, "crime": crime})

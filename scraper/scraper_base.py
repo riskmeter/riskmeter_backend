@@ -40,34 +40,19 @@ class ScraperBase:
         await asyncio.sleep(2)
 
     async def get_links(self):
+        records: set[dict[str, str]] = []
         for response in self.data:
             html = BeautifulSoup(response, "html.parser")
             all_links = html.find_all("a")
             for links in all_links:
                 if h3 := links.find("h3"):
-                    if (
-                        self.country not in h3.text
-                        or self.city not in h3.text
-                        or self.news_target not in h3.text
-                    ):
-                        print("response invalid")
-                    else:
-                        print(
-                            f"link: {(links['href']).strip('/url?q=')}\ntitle: {h3.text}\n"
-                        )
-                        return {
-                            "link"
+                    records.append(
+                        {
+                            "link": (links["href"]).strip("/url?q="),
+                            "title": h3.text,
                         }
-
-
-async def task():
-    target = ScraperBase("spain", "", "madrid")
-    await target.query_request("theft")
-    await target.get_links()
-
-
-if __name__ == "__main__":
-    asyncio.run(task())
+                    )
+        return records
 
 
 class Attributes(ScraperBase):
@@ -99,8 +84,13 @@ class CrimeStatistics(ScraperBase):
     ) -> None:
         super().__init__(country, state, city)
 
+    async def fetch_links(self):
+        target = ScraperBase(self.country, self.state, self.city)
+        await target.query_request("theft")
+        return await target.get_links()
+
     def all(self):
-        return requests.get(URLS.CRIME).json()
+        return asyncio.run(self.fetch_links())
 
 
 class HealthStatistics:
