@@ -1,5 +1,8 @@
 from django.http import HttpResponse, JsonResponse
-from .scraper_base import Attributes, CrimeStatistics
+from .scrapers.crime_scraper import CrimeStatistics
+from .scrapers.attributes_scraper import Attributes
+from .scrapers.health_scraper import HealthStatistics
+from .scrapers.fraud_scraper import FraudStatistics
 
 
 def index(request):
