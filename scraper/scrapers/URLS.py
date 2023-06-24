@@ -10,3 +10,4 @@ class URLS:
     TIME_IP = "http://worldtimeapi.org/api/ip"
     CRIME = "https://andruxnet-world-cities-v1.p.rapidapi.com/"
     GOOGLE = "https://www.google.com/search?q"
+    COVID = "https://disease.sh/v3/covid-19/countries/"

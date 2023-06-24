@@ -11,11 +11,27 @@ class CrimeStatistics(GoogleScraper):
         super().__init__(country, state, city)
 
     @await_func
-    async def fetch_links(self):
-        _ = GoogleScraper(self.country, self.state, self.city)
-        await _.query_request("theft")
-        return await _.get_links()
+    async def fetch_theft_links(self):
+        await self.query_request("theft")
+        return await self.get_links()
+
+    @await_func
+    async def fetch_murder_links(self):
+        await self.query_request("murder")
+        return await self.get_links()
 
     @await_func
     async def get_crime_rate(self):
+        ...
+
+    @await_func
+    async def get_theft_rate(self):
+        ...
+
+    @await_func
+    async def get_tourists_crimes(self):
+        ...
+
+    @await_func
+    async def get_murder_rates(self):
         ...
