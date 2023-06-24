@@ -1,30 +1,21 @@
-import requests
-from dataclasses import dataclass
-import json
 import asyncio
-from bs4 import BeautifulSoup
-from .URLS import URLS
-from .scraper_base import ScraperBase
+
+from .scraper_base import GoogleScraper
+from .utils import await_func
 
 
-class CrimeStatistics(ScraperBase):
-    """
-    statistics pointing to crimes occurred within 2 months till DOQ
-    - theft
-    - gang activity
-    - discriminatory activity
-    lets just start with theft
-    """
-
+class CrimeStatistics(GoogleScraper):
     def __init__(
         self, country: str = None, state: str = None, city: str = None
     ) -> None:
         super().__init__(country, state, city)
 
+    @await_func
     async def fetch_links(self):
-        target = ScraperBase(self.country, self.state, self.city)
-        await target.query_request("theft")
-        return await target.get_links()
+        _ = GoogleScraper(self.country, self.state, self.city)
+        await _.query_request("theft")
+        return await _.get_links()
 
-    def all(self):
-        return asyncio.run(self.fetch_links())
+    @await_func
+    async def get_crime_rate(self):
+        ...

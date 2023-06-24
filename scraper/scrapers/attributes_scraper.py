@@ -1,13 +1,10 @@
-import requests
-from dataclasses import dataclass
 import json
-import asyncio
-from bs4 import BeautifulSoup
+import requests
+from .scraper_base import GoogleScraper
 from .URLS import URLS
-from .scraper_base import ScraperBase
 
 
-class Attributes(ScraperBase):
+class Attributes(GoogleScraper):
     def __init__(
         self, country: str = None, state: str = None, city: str = None
     ) -> None:

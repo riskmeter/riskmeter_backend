@@ -1,8 +1,7 @@
 from django.http import HttpResponse, JsonResponse
-from .scrapers.crime_scraper import CrimeStatistics
+
 from .scrapers.attributes_scraper import Attributes
-from .scrapers.health_scraper import HealthStatistics
-from .scrapers.fraud_scraper import FraudStatistics
+from .scrapers.crime_scraper import CrimeStatistics
 
 
 def index(request):
@@ -26,6 +25,6 @@ def time_ip(request):
 
 def crime(request, country, city):
     if request.method == "GET":
-        crime = CrimeStatistics(country=country, city=city).all()
+        crime = CrimeStatistics(country=country, city=city).fetch_links()
 
         return JsonResponse({"country": country, "city": city, "crime": crime})
